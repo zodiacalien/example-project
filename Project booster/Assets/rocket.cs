@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class rocket : MonoBehaviour
 {
+    AudioSource audioSource;
     Rigidbody rigidBody;
     // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -16,20 +19,31 @@ public class rocket : MonoBehaviour
     {
         ProcessInput();
     }
-
     private void ProcessInput()
     {
-       if (Input.GetKey(KeyCode.Space))
-        {
+        if (Input.GetKey(KeyCode.Space))
+        {  
             rigidBody.AddRelativeForce(Vector3.up);
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
         }
-       if (Input.GetKey(KeyCode.A))
+        else
         {
-            print("Rotate left");
+            audioSource.Stop();
         }
-       else if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.A))
         {
-            print("Rotate Right");
+            transform.Rotate(Vector3.forward);
+
+        }
+        else if (Input.GetKey(KeyCode.D))
+
+        {
+            transform.Rotate(-Vector3.forward);
+
         }
     }
+    
 }
