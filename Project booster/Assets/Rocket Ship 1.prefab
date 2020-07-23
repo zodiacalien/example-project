@@ -517,6 +517,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rcsThrust: 4
   forwardThrust: 22
+  mainEngine: {fileID: 8300000, guid: 7fc033136b11d0f41b873748630771cc, type: 3}
+  deathClip: {fileID: 8300000, guid: 85e5cbe0e84109645a33fef87648c747, type: 3}
+  loadSound: {fileID: 8300000, guid: f188ac750254855438e744ee396b2d8e, type: 3}
 --- !u!54 &1088587551
 Rigidbody:
   m_ObjectHideFlags: 0
