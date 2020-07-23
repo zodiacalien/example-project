@@ -8,21 +8,26 @@ public class rocket : MonoBehaviour
 
     [SerializeField] float rcsThrust = 5f;
     [SerializeField] float forwardThrust = 5f;
+
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip deathClip;
     [SerializeField] AudioClip loadSound;
 
+    [SerializeField] ParticleSystem mainEngineParticles;
+    [SerializeField] ParticleSystem deathClipParticles;
+    [SerializeField] ParticleSystem loadSoundParticles;
+
+
     enum State {Alive, Dying, Finish};
     State state = State.Alive;  
 
-    // Start is called before the first frame update
     void Start()
     {
         rigidBody = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (state == State.Alive)
@@ -48,11 +53,13 @@ public class rocket : MonoBehaviour
         }
     }
 
+
     private void FinishFunction()
     {
         state = State.Finish;
         audioSource.Stop();
         audioSource.PlayOneShot(loadSound);
+        loadSoundParticles.Play();
         Invoke("NextLevel1", 2f);
         print("Good one forsen!");
     }
@@ -63,8 +70,10 @@ public class rocket : MonoBehaviour
         state = State.Dying;
         audioSource.Stop();
         audioSource.PlayOneShot(deathClip);
+        deathClipParticles.Play(); 
         Invoke("RespawnPlayer", 2f); //parameretise time
     }
+
 
     private void NextLevel1()
     {
@@ -76,6 +85,7 @@ public class rocket : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
 
     private void RespondToRotate()
     {
@@ -104,7 +114,8 @@ public class rocket : MonoBehaviour
         }
         else
         {
-            audioSource.Stop(); ;
+            audioSource.Stop();
+            mainEngineParticles.Stop();
         }
     }
 
@@ -113,7 +124,9 @@ public class rocket : MonoBehaviour
         rigidBody.AddRelativeForce(Vector3.up * forwardThrust);
         if (!audioSource.isPlaying)
         {
+            mainEngineParticles.Play();
             audioSource.PlayOneShot(mainEngine);
         }
+       
     }
 }
